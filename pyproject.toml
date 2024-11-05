@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dl_datasets"
+version = "0.1.0"
+authors = [
+    {name = "Purvish Jajal", email = "pjjajal@purdue.edu"},
+]
+description = "A package of ready to use datasets for deep learning training"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "huggingface_hub",
+    "datasets",
+    "datasets[vision]"
+]
+
+[project.urls]
+homepage = "https://github.com/pjjajal/dl-datasets"
+repository = "https://github.com/pjjajal/dl-datasets"

@@ -8,23 +8,25 @@ KEYS = {"image": "jpg", "label": "cls"}
 
 
 def process_data(sample, transform=None):
-    sample["label"] = [label - 1 for label in sample[KEYS["label"]]] # subtract 1 to make it 0-indexed
+    # sample["cls"] = [label for label in sample["cls"]] # subtract 1 to make it 0-indexed
     if transform is not None:
-        sample["image"] = [transform(img) for img in sample[KEYS["image"]]]
+        sample["jpg"] = [transform(img) for img in sample["jpg"]]
     return sample
-
 
 def imagenetw21_train(
     transform=None,
     seed=245,
     shuffle_buffer_size=1_000,
     streaming=True,
+    num_proc=1,
 ):
-    dataset = load_dataset(URL, split="train", streaming=streaming)
-    dataset = dataset.shuffle(seed=seed, buffer_size=shuffle_buffer_size).map(
-        partial(process_data, transform=transform),
-        batched=True,
-        remove_columns=dataset.column_names,
-    ).with_format("torch")
-
+    dataset = load_dataset(URL, split="train", streaming=streaming, num_proc=num_proc)
+    # dataset = dataset.map(
+    #     map_data,
+    #     batched=True,
+    #     remove_columns=dataset.column_names,
+    #     num_proc=num_proc
+    # )
+    dataset = dataset.select_columns(['jpg', 'cls']).with_format("torch")
+    dataset.set_transform(partial(process_data, transform=transform))
     return dataset

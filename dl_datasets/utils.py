@@ -6,5 +6,5 @@ def image_collate_fn(batch):
 
 def process_data(sample, transform=None):
     if transform is not None:
-        sample["jpg"] = [transform(img) for img in sample["jpg"]]
+        sample["jpg"] = [transform(img.convert('RGB')) for img in sample["jpg"]]
     return sample

@@ -38,6 +38,19 @@ def imagenet_randaug_train(args):
 
 
 @register_transform
+def imagenet_train(args):
+    return tvt.Compose(
+        [
+            tvt.ToImage(),
+            tvt.ToDtype(torch.float32, scale=True),
+            tvt.RandomResizedCrop(args.image_size),
+            tvt.RandomHorizontalFlip(),
+            make_normalize_transform(),
+        ]
+    )
+
+
+@register_transform
 def imagenet_val(args):
     return tvt.Compose(
         [
@@ -48,4 +61,3 @@ def imagenet_val(args):
             make_normalize_transform(),
         ]
     )
-

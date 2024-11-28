@@ -28,9 +28,10 @@ def imagenet_randaug_train(args):
     return tvt.Compose(
         [
             tvt.ToImage(),
-            tvt.ToDtype(torch.float32, scale=True),
+            tvt.ToDtype(torch.uint8, scale=True),
             tvt.RandomResizedCrop(args.image_size),
             tvt.RandomHorizontalFlip(),
+            tvt.ToDtype(torch.float32, scale=True),
             tvt.RandAugment(num_ops=args.num_ops, magnitude=args.magnitude),
             make_normalize_transform(),
         ]
@@ -42,9 +43,10 @@ def imagenet_train(args):
     return tvt.Compose(
         [
             tvt.ToImage(),
-            tvt.ToDtype(torch.float32, scale=True),
+            tvt.ToDtype(torch.uint8, scale=True),
             tvt.RandomResizedCrop(args.image_size),
             tvt.RandomHorizontalFlip(),
+            tvt.ToDtype(torch.float32, scale=True),
             make_normalize_transform(),
         ]
     )
@@ -55,9 +57,10 @@ def imagenet_val(args):
     return tvt.Compose(
         [
             tvt.ToImage(),
-            tvt.ToDtype(torch.float32, scale=True),
+            tvt.ToDtype(torch.uint8, scale=True),
             tvt.Resize(256, interpolation=tvt.InterpolationMode.BICUBIC),
             tvt.CenterCrop(args.image_size),
+            tvt.ToDtype(torch.float32, scale=True),
             make_normalize_transform(),
         ]
     )

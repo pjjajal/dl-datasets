@@ -11,12 +11,12 @@ KEYS = {"image": "jpg", "label": "cls"}
 
 def imagenet_train(transform=None, num_proc=1):
     dataset = load_dataset(URL, split="train", num_proc=num_proc)
-    dataset = dataset.select_columns(["jpg", "cls"]).with_format("torch")
+    dataset = dataset.select_columns(["jpg", "cls"])
     dataset.set_transform(partial(process_data, transform=transform))
     return dataset
 
 def imagenet_val(transform=None, num_proc=1):
     dataset = load_dataset(URL, split="validation", num_proc=num_proc)
-    dataset = dataset.select_columns(["jpg", "cls"]).with_format("torch")
+    dataset = dataset.select_columns(["jpg", "cls"])
     dataset.set_transform(partial(process_data, transform=transform))
     return dataset
